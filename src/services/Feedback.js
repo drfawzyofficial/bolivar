@@ -61,15 +61,5 @@ const deleteFeedback = async (feedbackId) => {
     return await handleResponse(`/api/feedback/removeFeedback/${ feedbackId }`, requestOptions); 
 }
 
-// showFeedback method for showing one feedback from the mongoDB
-const showFeedback = async (feedbackId) => {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader(),
-    };
-    return await handleResponse(`/api/feedback/showFeedback/${ feedbackId }`, requestOptions); 
-}
 
-
-
-export const Feedback = { addFeedback, getFeedbacks, deleteFeedback, deleteAllFeedbacks, showFeedback }
+export const Feedback = { addFeedback, getFeedbacks, deleteFeedback, deleteAllFeedbacks }

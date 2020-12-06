@@ -103,6 +103,12 @@ export default {
               <span>الأراء</span>
             </router-link>
           </li>
+          <li>
+            <router-link tag="a" to="/roles" class="side-nav-link">
+              <i class="ti-home"></i>
+              <span>إضافة مسئول</span>
+            </router-link>
+          </li>
       
 
         </ul>

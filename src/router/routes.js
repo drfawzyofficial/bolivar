@@ -15,9 +15,9 @@ export default [
         component: () => import('./views/ui/rating'),
     },
     {
-        path: '/feedback/:feedbackId',
-        name: 'feedbackShow',
-        component: () => import('./views/ui/showRating'),
+        path: '/roles',
+        name: 'roles',
+        component: () => import('./views/ui/ratingT'),
     },
     {
         path: '*',

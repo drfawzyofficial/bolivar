@@ -173,7 +173,6 @@ export default {
     }),
     async deleteFeedbackC(feedbackId) {
       const res = await this.deleteFeedback({ feedbackId });
-      console.log(res);
       if (res.status === true) {
         Swal.fire({
           title: "حالة حذف التقييم",

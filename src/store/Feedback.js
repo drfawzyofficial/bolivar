@@ -47,16 +47,6 @@ export const FeedbackManagement = {
                 console.log(err.message);
             }
         },
-        async showFeedback({ commit }, { feedbackId }) {
-
-            try {
-                    commit('showFeedback', feedbackId);
-                    return { status: true, message: 'عرض التقييم بشكل ناجح' };
-
-            } catch (err) {
-                console.log(err.message);
-            }
-        },
         async deleteAllFeedbacks({ commit }) {
             try {
                 await Feedback.deleteAllFeedbacks();
@@ -81,9 +71,6 @@ export const FeedbackManagement = {
         },
         deleteAllFeedbacks(state) {
             state.feedbacks = [];
-        },
-        showFeedback(state, feedbackId) {
-            state.OneFeedback =  state.feedbacks.find((feedback) => feedback._id === feedbackId)
         }
 
     }

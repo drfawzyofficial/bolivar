@@ -6,7 +6,7 @@
         <b-col lg="12">
           <div class="mb-2">
             <b-button v-b-modal.modal-1>إضافة مسئول</b-button>
-            <b-modal id="modal-1" title="إضافة مسئول"  @ok="handleOk"  @show="resetModal"
+            <b-modal id="modal-1" title="إضافة مسئول"  @ok="handleOk"  @show="resetInfoModal"
       @hidden="resetModal" ok-title = "إضافة مسئول" cancel-title = "إغلاق">
               <p class="mb-0">قم بإضافة المسئول سواء كان أدمن أو كاشير</p>
               <form class="addRes row">
@@ -125,14 +125,14 @@
       >
         <template #cell(actions)="row">
           <b-button
-            @click="info(row.item, row.index, $event.target)"
+            @click="infoModal(row.item, row.index, $event.target)"
             variant="success"
           >
             تعديل
           </b-button>
           <b-button
             class="ml-2"
-            @click="deleteRow(row.item, row.index, $event.target)"
+            @click="handleDeleteUser(row.item, row.index, $event.target)"
             variant="danger"
           >
             حذف
@@ -152,12 +152,69 @@
 
       <!-- Info modal -->
       <b-modal
-        :id="infoModal.id"
-        :title="infoModal.title"
-        ok-only
-        @hide="resetInfoModal"
+        id="Modal"
+        :title="title"
+        ok-title = "تعديل"
+        cancel-title="إغلاق"
+        @ok="handleEdit"
       >
-        <pre>{{ infoModal.content }}</pre>
+         <p>قم بإضافة المسئول سواء كان أدمن أو كاشير</p>
+        <form class="addRes row">
+              <b-col md="12">
+                <b-input-group prepend="الاسم الأول">
+                  <b-form-input
+                    id="input-1"
+                    v-model="firstName"
+                    type="text"
+                    required
+                    placeholder="أدخل الأسم الأول"
+                  ></b-form-input>
+                  <b-input-group-append> </b-input-group-append>
+                </b-input-group>
+              </b-col>
+              <b-col md="12" class="mt-3">
+                <b-input-group prepend="الاسم الثاني">
+                  <b-form-input
+                    id="input-2"
+                    v-model="lastName"
+                    type="text"
+                    required
+                    placeholder="أدخل الأسم الثاني"
+                  ></b-form-input>
+                  <b-input-group-append> </b-input-group-append>
+                </b-input-group>
+              </b-col>
+                <b-col md="12" class="mt-3">
+                <b-input-group prepend="اسم المستخدم">
+                  <b-form-input
+                    id="input-3"
+                    v-model="username"
+                    type="text"
+                    required
+                    placeholder="أدخل اسم المستخدم"
+                  ></b-form-input>
+                  <b-input-group-append> </b-input-group-append>
+                </b-input-group>
+              </b-col>
+                <b-col md="12" class="mt-3">
+                <b-input-group prepend="كلمة السر">
+                  <b-form-input
+                    id="input-4"
+                    v-model="password"
+                    type="password"
+                    required
+                    placeholder="أدخل كلمة السر"
+                  ></b-form-input>
+                  <b-input-group-append> </b-input-group-append>
+                </b-input-group>
+              </b-col>
+              <b-col md="12" class="mt-3">
+                    <b-input-group prepend="اختر الدور">
+                      <b-form-select v-model="role" :options="options"></b-form-select>
+                        <b-input-group-append> </b-input-group-append>
+                    </b-input-group>
+              </b-col>
+              </form>
       </b-modal>
     </b-container>
   </Layout>
@@ -177,13 +234,15 @@ export default {
          role: null,
          options: [
           { value: null, text: 'إختر الدور' },
-          { value: 'admin', text: 'أدمن مسئول' },
-          { value: 'cashier', text: 'كاشير مسئول' },
+          { value: 'Admin', text: 'أدمن مسئول' },
+          { value: 'Cashier', text: 'كاشير مسئول' },
         ],
         firstName: 'fawzy',
         lastName: 'Ghanem',
         username: 'fawzyeltop',
         password: '0120975049',
+        _id: '252525',
+        title: 'modal',
       fields: [
         {
           key: "_id",
@@ -210,12 +269,7 @@ export default {
       currentPage: 1,
       perPage: 5,
       filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      filterOn: []
     };
   },
   computed: {
@@ -229,14 +283,15 @@ export default {
   },
   methods: {
     ...mapActions('Auth', {
-      addUser: 'addUser'
+      addUser: 'addUser',
+      deleteUser: 'deleteUser',
+      editUser: 'editUser'
     }),
     async handleOk(bvModalEvt) {
          bvModalEvt.preventDefault();
         const { firstName, lastName, username, password, role } = this;
         const res = await this.addUser({ firstName, lastName, username, password, role });
         if (res.status === true) {
-            this.$bvModal.hide('modal-1');
             Swal.fire({
             title: "إضافة الأدمن/الكاشير",
             text: res.message,
@@ -248,21 +303,68 @@ export default {
            Swal.fire(res.message, "حسنًا تفهمت", "error");
       }
     },
-    resetModal() {
-        this.firstName = ''
-        this.lastName = null
-        this.username = null
-        this.password = null
-        this.selected = null
+     async handleEdit(bvModalEvt) {
+         bvModalEvt.preventDefault();
+        const { _id, firstName, lastName, username, password, role } = this;
+        const res = await this.editUser({ _id, firstName, lastName, username, password, role });
+        if (res.status === true) {
+            Swal.fire({
+            title: "تعديل بيانات المستخدم",
+            text: res.message,
+            type: "success",
+            confirmButtonText: "حسنًا موافق",
+            closeOnConfirm: false,
+            });
+      } else {
+           Swal.fire(res.message, "حسنًا تفهمت", "error");
+      }
     },
-    info(item, index, button) {
-      this.infoModal.title = `الصف ${index + 1}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+     async handleDeleteUser(item, index, button) {
+       Swal.fire({
+        title: "هل أنتَ متأكد من حذف ذلك المستخدم",
+        text: "لن يكون لك القدرة على استرجاع المستخدم إن تم حذفه",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#34c38f",
+        cancelButtonColor: "#f46a6a",
+        confirmButtonText: "تأكيد الحذف",
+        cancelButtonText: "إغلاق",
+      }).then(async (result) => {
+        if (result.value) {
+          const res = await this.deleteUser({ _id: item._id });
+          if (res.status === true) {
+            Swal.fire({
+              title: "تم حذف ذلك المستخدم",
+              text: res.message,
+              type: "success",
+              confirmButtonText: "حسنًا موافق",
+              closeOnConfirm: false,
+            });
+          } else {
+            Swal.fire(res.message, "حسنًا تفهمت", "error");
+          }
+        }
+      });
+    },
+    infoModal(item, index, button) {
+      this.title = `بيانات المسئول ${ item.username }`;
+      this._id = item._id;
+      this.firstName = item.firstName;
+      this.lastName = item.lastName;
+      this.username = item.username;
+      this.password = '';
+      this.lastName = item.lastName;
+      this.role = item.role;
+      this.$root.$emit("bv::show::modal", 'Modal', button);
     },
     resetInfoModal() {
       this.infoModal.title = "";
-      this.infoModal.content = "";
+      this._id = ""
+      this.firstName = "";
+      this.lastName = "";
+      this.username = "";
+      this.password = "";
+      this.role = "";
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering

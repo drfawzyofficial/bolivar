@@ -50,19 +50,53 @@ export const Auth = {
     },
     async addUser({ commit }, { firstName, lastName, username, password, role }) {
       try {
-        console.log(firstName, lastName, username, password, role);
         commit("addRequest");
         const data = await User.addUser(firstName, lastName, username, password, role);
-        console.log(data)
         if (data.statusCode === 200) {
           commit("addUser", data.result);
           commit("addRequestSuccess", { username });
-          return { status: true, message: data.message };
+          return { status: true, message: 'تم إضافة أدمن/كاشير بنجاح' };
         } else {
           if (data.statusCode === 401 || data.statusCode === 500) {
             this.logout();
           } else {
             commit("addRequestFailed", data.message);
+            return { status: false, message: data.message };
+          }
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    async deleteUser({ commit }, { _id }) {
+      try {
+        const data = await User.deleteUser(_id);
+        console.log(data)
+        if (data.statusCode === 200) {
+          commit("deleteUser", _id);
+          return { status: true, message: 'تم حذف ذلك المستخدم' };
+        } else {
+          if (data.statusCode === 401 || data.statusCode === 500) {
+            this.logout();
+          } else {
+            return { status: false, message: data.message };
+          }
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    async editUser({ commit }, { _id, firstName, lastName, username, password, role }) {
+      try {
+        const data = await User.editUser( _id, firstName, lastName, username, password, role);
+        console.log(data) 
+        if (data.statusCode === 200) {
+          commit("editUser", data.result);
+          return { status: true, message: 'تم تعديل البيانات بنجاح' };
+        } else {
+          if (data.statusCode === 401 || data.statusCode === 500) {
+            this.logout();
+          } else {
             return { status: false, message: data.message };
           }
         }
@@ -101,7 +135,18 @@ export const Auth = {
       state.status = {};
       state.user = null;
     },
-   
+    editUser(state, user) {
+      const foundIndex = state.Admins.findIndex(x => x.id == user._id);
+      state.Admins[foundIndex] = user;
+    },
+    addUser(state, user) {
+      state.Admins.push(user);
+    },
+    deleteUser(state, userID) {
+      state.Admins = state.Admins.filter((user) => {
+        return user._id !== userID;
+    });
+    },
     logout(state) {
       state.status = {};
       state.user = null;

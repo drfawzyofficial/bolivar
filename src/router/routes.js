@@ -20,6 +20,16 @@ export default [
         component: () => import('./views/ui/ratingT'),
     },
     {
+        path: '/clients',
+        name: 'clients',
+        component: () => import('./views/ui/clients'),
+    },
+    {
+        path: '/tables',
+        name: 'tables',
+        component: () => import('./views/ui/clients'),
+    },
+    {
         path: '*',
         component: () => import('./views/pages/error-404'),
     },

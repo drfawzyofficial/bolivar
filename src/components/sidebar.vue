@@ -109,7 +109,12 @@ export default {
               <span>إضافة مسئول</span>
             </router-link>
           </li>
-      
+      <li>
+            <router-link tag="a" to="/clients" class="side-nav-link">
+              <i class="ti-home"></i>
+              <span>جميع العملاء</span>
+            </router-link>
+          </li>
 
         </ul>
       </div>

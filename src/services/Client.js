@@ -2,19 +2,59 @@
 // Import handleResponse && authHeader
 import { handleResponse, authHeader } from '../helpers';
 
-// login Auth
-const login = async (username, password) => {
+// addClient method to add a client
+const addClient = async (name = 'Ahmed', phone = `${ Math.random() }`) => {
     try {
         const requestOptions = {
             method: 'POST',
             headers: authHeader(),
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ name, phone })
         };
-        return await handleResponse('/api/user/logIn', requestOptions);
+        return await handleResponse('/api/client/addClient', requestOptions);
     } catch (err) {
         console.log(err.message);
     }
 }
+
+// addClient method to add a client
+const deleteClient = async (clientID) => {
+    try {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: authHeader()
+        };
+        return await handleResponse(`/api/client/removeClient/${ clientID }`, requestOptions);
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
+// getClients method to get all the clients
+const getAllClients = async () => {
+    try {
+        const requestOptions = {
+            method: 'GET',
+            headers: authHeader(),
+        };
+        return await handleResponse('/api/client/allClients', requestOptions);
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
+// deleteAllClients method to get all the clients
+const deleteAllClients = async () => {
+    try {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: authHeader(),
+        };
+        return await handleResponse('/api/client/removeAll', requestOptions);
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
 
 // getAdmins method for getting all the admins from mongoDB
 const addUser = async (firstName, lastName, username, password, role) => {
@@ -60,7 +100,7 @@ const editUser = async (_id, firstName, lastName, username, password, role) => {
 }
 
 // getAdmins method for getting all the admins from mongoDB
-const getAllUsers = async () => {
+const getAllU = async () => {
     try {
         const requestOptions = {
             method: 'GET',
@@ -96,4 +136,5 @@ const logout = () => {
   
 }
 
-export const User = { login, getAllUsers, addUser, deleteUser, editUser, logout }
+export const Client = { addClient, deleteClient, getAllClients, deleteAllClients }
+

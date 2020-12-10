@@ -27,7 +27,22 @@ export default [
     {
         path: '/tables',
         name: 'tables',
-        component: () => import('./views/ui/clients'),
+        component: () => import('./views/ui/tables'),
+    },
+    {
+        path: '/classes',
+        name: 'classes',
+        component: () => import('./views/ui/classes'),
+    },
+    {
+        path: '/offers',
+        name: 'offers',
+        component: () => import('./views/ui/Offers'),
+    },
+    {
+        path: '/class/:className',
+        name: 'class',
+        component: () => import('./views/ui/class'),
     },
     {
         path: '*',

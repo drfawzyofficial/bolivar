@@ -1,6 +1,6 @@
 import { Client } from "../services";
 
-const initialState = { clients: [] }
+const initialState = { clients: [], loading: false }
 
 
 export const ClientManagement = {
@@ -42,7 +42,9 @@ export const ClientManagement = {
     },
     async getAllClients({ commit }) { 
       try {
+        commit('loading');
         const data = await Client.getAllClients();
+        commit('unloading');
         if (data.statusCode === 200) {
           commit("getAllClients", data.result);
           return { status: true, message: data.message };
@@ -82,5 +84,11 @@ export const ClientManagement = {
             return client._id != clientID;
         });
     },
+    loading(state) {
+      state.loading = true;
+    },
+    unloading(state) {
+      state.loading = false;
+    }
   },
 };

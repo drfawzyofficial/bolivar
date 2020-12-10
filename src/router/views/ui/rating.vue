@@ -1,6 +1,17 @@
 <template>
   <Layout>
-    <PageHeader :title="title" :items="items" />
+    <div class="row py-5" v-if="loading">
+      <div class="col-12 py-5">
+        <div class="loading text-center text-dark">
+          <div class="loading"  style="font-size: 3rem">
+            <i class="fas fa-spinner fa-spin"></i>
+          </div>
+           <div class="text"><h3>تحميل البيانات...</h3></div>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <PageHeader :title="title" :items="items" />
     <div class="row">
       <div v-if="feedbacks.length <= 0" class="col-12">
         <div class="alert alert-danger">
@@ -119,6 +130,7 @@
       </div>
 
     </div>
+    </div>
   </Layout>
 </template>
 <script>
@@ -161,6 +173,7 @@ export default {
     ...mapState({
       feedbacks: (state) => state.FeedbackManagement.feedbacks,
       Alert: (state) => state.Alert,
+      loading: (state) => state.FeedbackManagement.loading,
     }),
   },
   methods: {

@@ -99,20 +99,41 @@ export default {
           <li class="menu-title">الصفحات</li>
           <li>
             <router-link tag="a" to="/feedback" class="side-nav-link">
-              <i class="ti-home"></i>
+             <i class="ti-package"></i>
               <span>الأراء</span>
             </router-link>
           </li>
           <li>
             <router-link tag="a" to="/roles" class="side-nav-link">
-              <i class="ti-home"></i>
+              <i class="ti-archive"></i>
               <span>إضافة مسئول</span>
             </router-link>
           </li>
       <li>
             <router-link tag="a" to="/clients" class="side-nav-link">
-              <i class="ti-home"></i>
+              <i class="ti-calendar"></i>
               <span>جميع العملاء</span>
+            </router-link>
+          </li>
+
+           <li>
+            <router-link tag="a" to="/tables" class="side-nav-link">
+              <i class="ti-view-grid"></i>
+              <span>المقاعد</span>
+            </router-link>
+          </li>
+
+           <li>
+            <router-link tag="a" to="/classes" class="side-nav-link">
+              <i class="ti-receipt"></i>
+              <span>الأصناف</span>
+            </router-link>
+          </li>
+
+           <li>
+            <router-link tag="a" to="/offers" class="side-nav-link">
+             <i class="ti-face-smile"></i>
+              <span>العروض</span>
             </router-link>
           </li>
 

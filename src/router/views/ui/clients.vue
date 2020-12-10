@@ -1,6 +1,17 @@
 <template>
   <Layout>
-    <PageHeader :title="title" :items="items" />
+    <div class="row py-5" v-if="loading">
+      <div class="col-12 py-5">
+        <div class="loading text-center text-dark">
+          <div class="loading"  style="font-size: 3rem">
+            <i class="fas fa-spinner fa-spin"></i>
+          </div>
+           <div class="text"><h3>تحميل البيانات...</h3></div>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <PageHeader :title="title" :items="items" />
     <div class="row mb-3">
       <div class="col-12">
        <div class="d-flex">
@@ -34,6 +45,7 @@
           >
         </b-card>
       </div>
+    </div>
     </div>
   </Layout>
 </template>
@@ -75,7 +87,8 @@ export default {
   },
   computed: {
     ...mapState({
-      clients: (state) => state.ClientManagement.clients
+      clients: (state) => state.ClientManagement.clients,
+      loading: (state) => state.ClientManagement.loading
     }),
   },
   methods: {
@@ -131,7 +144,7 @@ export default {
     },
   },
   async created() {
-    await this.$store.dispatch("ClientManagement/addClient");
+    // await this.$store.dispatch("ClientManagement/addClient");
     const res = await this.$store.dispatch("ClientManagement/getAllClients");
     if (res.status === true) {
       Swal.fire({

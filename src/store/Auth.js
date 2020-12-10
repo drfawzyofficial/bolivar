@@ -3,7 +3,7 @@ import router from "../router";
 
 const user = JSON.parse(localStorage.getItem("user"));
 const initialState = user
-  ? { status: { loggedIn: true }, user, Admins: [], addRequest: false }
+  ? { status: { loggedIn: true }, user, Admins: [], addRequest: false, loading: false }
   : { status: {}, user: null };
 
 export const Auth = {
@@ -33,7 +33,9 @@ export const Auth = {
     },
     async getAllUsers({ dispatch, commit }) {
       try {
+        commit('loading');
         const data = await User.getAllUsers();
+        commit('unloading');
         if (data.statusCode === 200) {
           commit("getAllUsers", data.result);
         } else {
@@ -151,5 +153,11 @@ export const Auth = {
       state.status = {};
       state.user = null;
     },
+    loading(state) {
+      state.loading = true;
+    },
+    unloading(state) {
+      state.loading = false;
+    }
   },
 };

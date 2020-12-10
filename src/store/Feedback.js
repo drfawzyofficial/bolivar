@@ -2,7 +2,7 @@ import { Feedback } from '../services';
 
 export const FeedbackManagement = {
     namespaced: true,
-    state: { feedbacks: [], OneFeedback: { } },
+    state: { feedbacks: [], OneFeedback: { }, loading: false },
     actions: {
         async addFeedback({ dispatch, commit }) {
             try {
@@ -21,7 +21,9 @@ export const FeedbackManagement = {
             }
         },
         async getFeedbacks({ commit }) {
+            commit('loading');
             const data = await Feedback.getFeedbacks();
+            commit('unloading');
             if (data.statusCode === 200) {
                 commit('getFeedbacks', data.result);
                 return { status: true, message: data.message };
@@ -71,7 +73,13 @@ export const FeedbackManagement = {
         },
         deleteAllFeedbacks(state) {
             state.feedbacks = [];
-        }
+        },
+        loading(state) {
+            state.loading = true;
+          },
+          unloading(state) {
+            state.loading = false;
+          }
 
     }
 }

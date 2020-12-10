@@ -5,6 +5,9 @@ import { Auth } from './Auth';
 import { Alert } from './Alert';
 import { FeedbackManagement } from './Feedback';
 import { ClientManagement } from './Client';
+import { TableManagement } from './Table';
+import { ClassManagement } from './Class';
+import { OfferManagement } from './Offer';
 
 Vue.use(Vuex);
 
@@ -13,7 +16,10 @@ export const store = new Vuex.Store({
         Auth,
         Alert,
         FeedbackManagement,
-        ClientManagement
+        ClientManagement,
+        TableManagement,
+        ClassManagement,
+        OfferManagement
     }
 });
 

@@ -12,13 +12,13 @@ export default [
     {
         path: '/feedback',
         name: 'feedback',
-        component: () => import('./views/ui/rating'),
+        component: () => import('./views/ui/Feedback'),
     },
     {
         path: '/roles',
         name: 'roles',
-        component: () => import('./views/ui/ratingT'),
-    },
+        component: () => import('./views/ui/roles'),
+    },  
     {
         path: '/clients',
         name: 'clients',

@@ -1,13 +1,10 @@
 <script>
 import Layout from "./Layouts/vertical";
 import appConfig from "@/app.config";
-
 import Chart from "@/components/widgets/chart";
 import Stat from "@/components/widgets/widget-stat";
 import Transaction from "@/components/widgets/transaction";
-import Chat from "@/components/widgets/chat";
 import Activity from "@/components/widgets/activity";
-
 import { sparklineChartData, salesDonutChart, radialBarChart } from "./data";
 
 export default {
@@ -20,7 +17,6 @@ export default {
     Chart,
     Stat,
     Transaction,
-    Chat,
     Activity
   },
   data() {
@@ -476,9 +472,6 @@ export default {
             <Transaction :transactions="transactions" />
           </div>
         </div>
-      </div>
-      <div class="col-xl-4">
-        <Chat :chat-messages="chatMessages" />
       </div>
     </div>
     <!-- end row -->

@@ -18,7 +18,7 @@
           <div class="mb-2">
             <b-button v-b-modal.modal-1>إضافة مسئول</b-button>
             <b-modal id="modal-1" title="إضافة مسئول"  @ok="handleOk"  @show="resetInfoModal"
-      @hidden="resetModal" ok-title = "إضافة مسئول" cancel-title = "إغلاق">
+     ok-title = "إضافة مسئول" cancel-title = "إغلاق">
               <p class="mb-0">قم بإضافة المسئول سواء كان أدمن أو كاشير</p>
               <form class="addRes row">
                 <b-col md="12" class="mt-3">

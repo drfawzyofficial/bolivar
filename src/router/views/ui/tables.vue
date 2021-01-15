@@ -118,8 +118,6 @@ import Swal from "sweetalert2";
 import Layout from "../Layouts/vertical";
 import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
-import VueBarcode from 'vue-barcode';
-import VueQrcode from 'vue-qrcode'
 import QrcodeVue from 'qrcode.vue'
 /**
  * Rating component
